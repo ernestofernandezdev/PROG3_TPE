@@ -2,6 +2,7 @@ package src;
 
 import utils.CSVReader;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -11,8 +12,10 @@ import java.util.List;
  */
 public class Servicios {
 
+	private HashMap<String, Tarea> tareas;
+
 	/*
-     * Expresar la complejidad temporal del constructor.
+     * Expresar la complejidad temporal del constructor. O(n)
      */
 	public Servicios(String pathProcesadores, String pathTareas)
 	{
@@ -22,21 +25,22 @@ public class Servicios {
 	}
 	
 	/*
-     * Expresar la complejidad temporal del servicio 1.
+     * Expresar la complejidad temporal del servicio 1. O(1) Hashing
      */
 	public Tarea servicio1(String ID) {
-		return null;
+
+		return tareas.get(ID);
 	}
     
     /*
-     * Expresar la complejidad temporal del servicio 2.
+     * Expresar la complejidad temporal del servicio 2. O(n) Lista de factoreo
      */
 	public List<Tarea> servicio2(boolean esCritica) {
 		return null;
 	}
 
     /*
-     * Expresar la complejidad temporal del servicio 3.
+     * Expresar la complejidad temporal del servicio 3. O(n) Estructura de arbol
      */
 	public List<Tarea> servicio3(int prioridadInferior, int prioridadSuperior) {
 		return null;
