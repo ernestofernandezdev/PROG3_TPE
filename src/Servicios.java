@@ -21,6 +21,7 @@ public class Servicios {
 		CSVReader reader = new CSVReader();
 		reader.readProcessors(pathProcesadores);
 		reader.readTasks(pathTareas);
+		System.out.println(reader.readService1(true));
 	}
 	
 	/*

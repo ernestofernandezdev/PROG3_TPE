@@ -20,6 +20,8 @@ public class CSVReader {
 	private HashMap<Boolean, List<Tarea>> listas_criticidad;
 
 	public CSVReader() {
+		this.tareas = new HashMap<>();
+		this.listas_criticidad = new HashMap<>();
 	}
 	
 	public void readTasks(String taskPath) {
@@ -53,6 +55,10 @@ public class CSVReader {
 		}
 		this.listas_criticidad.put(false, tareas_no_criticas);
 		this.listas_criticidad.put(true, tareas_criticas);
+	}
+
+	public List<Tarea> readService1(boolean lista){
+		return this.listas_criticidad.get(lista);
 	}
 	
 public void readProcessors(String processorPath) {
