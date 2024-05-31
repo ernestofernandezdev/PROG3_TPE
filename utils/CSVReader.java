@@ -10,21 +10,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class CSVReader {
-	//estructura para el servicio 1
-	private HashMap<String, Tarea> tareas;
-
-	//estructura para el servicio 2
-	private HashMap<Boolean, List<Tarea>> listas_criticidad;
 
 	public CSVReader() {
-		this.tareas = new HashMap<>();
-		this.listas_criticidad = new HashMap<>();
 	}
-	
-	public void readTasks(String taskPath) {
+
+	public void readTasks(String taskPath, HashMap<String, Tarea> tareas, HashMap<Boolean, List<Tarea>> listas_criticidad) {
 		
 		// Obtengo una lista con las lineas del archivo
 		// lines.get(0) tiene la primer linea del archivo
@@ -44,7 +38,7 @@ public class CSVReader {
 			// Aca instanciar lo que necesiten en base a los datos leidos
 			Tarea t = new Tarea(id,nombre,tiempo,critica,prioridad);
 
-			this.tareas.put(t.getId_tarea(),t);
+			tareas.put(t.getId_tarea(),t);
 
 			if(t.getEs_critica()){
 				tareas_criticas.add(t);
@@ -53,15 +47,11 @@ public class CSVReader {
 				tareas_no_criticas.add(t);
 			}
 		}
-		this.listas_criticidad.put(false, tareas_no_criticas);
-		this.listas_criticidad.put(true, tareas_criticas);
+		listas_criticidad.put(false, tareas_no_criticas);
+		listas_criticidad.put(true, tareas_criticas);
 	}
 
-	public List<Tarea> readService1(boolean lista){
-		return this.listas_criticidad.get(lista);
-	}
-	
-public void readProcessors(String processorPath) {
+	public void readProcessors(String processorPath) {
 		
 		// Obtengo una lista con las lineas del archivo
 		// lines.get(0) tiene la primer linea del archivo
@@ -105,5 +95,4 @@ public void readProcessors(String processorPath) {
 		
 		return lines;
 	}
-	
 }

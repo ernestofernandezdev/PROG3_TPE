@@ -2,6 +2,7 @@ package src;
 
 import utils.CSVReader;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -11,7 +12,11 @@ import java.util.List;
  */
 public class Servicios {
 
-	//Instancio un CSVReader aca y despues lo uso para acceder a las estructuras pertinentes
+	//estructura para el servicio 1
+	private HashMap<String, Tarea> tareas;
+
+	//estructura para el servicio 2
+	private HashMap<Boolean, List<Tarea>> listas_criticidad;
 
 	/*
      * Expresar la complejidad temporal del constructor.
@@ -20,23 +25,26 @@ public class Servicios {
 	{
 		CSVReader reader = new CSVReader();
 		reader.readProcessors(pathProcesadores);
-		reader.readTasks(pathTareas);
-		System.out.println(reader.readService1(true));
+		this.tareas = new HashMap<>();
+		this.listas_criticidad = new HashMap<>();
+		reader.readTasks(pathTareas, tareas, listas_criticidad);
+		//System.out.println(reader.readService1(true));
 	}
 	
-	/*
-     * Expresar la complejidad temporal del servicio 1.
-     */
-	public Tarea servicio1(String ID) {
 
-		return null;
+	// La complejidad temporal del servicio 1 es O(1), ya que en las estructuras
+	// HashMap obtener un elemento siempre es O(1).
+	public Tarea servicio1(String ID) {
+		return this.tareas.get(ID);
 	}
     
-    /*
-     * Expresar la complejidad temporal del servicio 2.
-     */
+
+    // La complejidad temporal del servicio 2 es O(1), por lo mismo que el punto anterior.
 	public List<Tarea> servicio2(boolean esCritica) {
-		return null;
+		if(esCritica){
+			return this.listas_criticidad.get(true);
+		}
+		return this.listas_criticidad.get(false);
 	}
 
     /*

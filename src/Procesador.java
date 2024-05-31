@@ -1,6 +1,6 @@
 package src;
 
-import java.util.Date;
+import java.util.ArrayList;
 
 public class Procesador {
     private String id_procesador;
@@ -46,4 +46,5 @@ public class Procesador {
     public void setAnio_funcionamiento(Integer anio_funcionamiento) {
         this.anio_funcionamiento = anio_funcionamiento;
     }
+
 }

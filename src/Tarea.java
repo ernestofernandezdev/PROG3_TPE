@@ -54,4 +54,14 @@ public class Tarea {
     public void setNivel_de_prioridad(Integer nivel_de_prioridad) {
         this.nivel_de_prioridad = nivel_de_prioridad;
     }
+
+    @Override
+    public String toString() {
+        return "Tarea----->{id_tarea='" + id_tarea + '\'' +
+                ", nombre='" + nombre_tarea + '\'' +
+                ", tiempo=" + tiempo_ejecucion +
+                ", es_critica=" + es_critica +
+                ", prioridad=" + nivel_de_prioridad +
+                '}';
+    }
 }
