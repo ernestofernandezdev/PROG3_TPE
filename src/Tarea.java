@@ -1,67 +1,67 @@
 package src;
 
 public class Tarea {
-    private String id_tarea;
-    private String nombre_tarea;
-    private Integer tiempo_ejecucion;
-    private Boolean es_critica;
-    private Integer nivel_de_prioridad;
+    private int idTarea;
+    private String nombreTarea;
+    private Integer tiempoEjecucion;
+    private Boolean esCritica;
+    private Integer nivelDePrioridad;
 
-    public Tarea(String id_tarea, String nombre_tarea, Integer tiempo_ejecucion, Boolean es_critica, Integer nivel_de_prioridad) {
-        this.id_tarea = id_tarea;
-        this.nombre_tarea = nombre_tarea;
-        this.tiempo_ejecucion = tiempo_ejecucion;
-        this.es_critica = es_critica;
-        this.nivel_de_prioridad = nivel_de_prioridad;
+    public Tarea(int idTarea, String nombreTarea, Integer tiempoEjecucion, Boolean esCritica, Integer nivelDePrioridad) {
+        this.idTarea = idTarea;
+        this.nombreTarea = nombreTarea;
+        this.tiempoEjecucion = tiempoEjecucion;
+        this.esCritica = esCritica;
+        this.nivelDePrioridad = nivelDePrioridad;
     }
 
-    public String getId_tarea() {
-        return id_tarea;
+    public int getIdTarea() {
+        return idTarea;
     }
 
-    public void setId_tarea(String id_tarea) {
-        this.id_tarea = id_tarea;
+    public void setIdTarea(int idTarea) {
+        this.idTarea = idTarea;
     }
 
-    public String getNombre_tarea() {
-        return nombre_tarea;
+    public String getNombreTarea() {
+        return nombreTarea;
     }
 
-    public void setNombre_tarea(String nombre_tarea) {
-        this.nombre_tarea = nombre_tarea;
+    public void setNombreTarea(String nombreTarea) {
+        this.nombreTarea = nombreTarea;
     }
 
-    public Boolean getEs_critica() {
-        return es_critica;
+    public Boolean getEsCritica() {
+        return esCritica;
     }
 
-    public void setEs_critica(Boolean es_critica) {
-        this.es_critica = es_critica;
+    public void setEsCritica(Boolean esCritica) {
+        this.esCritica = esCritica;
     }
 
-    public Integer getTiempo_ejecucion() {
-        return tiempo_ejecucion;
+    public Integer getTiempoEjecucion() {
+        return tiempoEjecucion;
     }
 
-    public void setTiempo_ejecucion(Integer tiempo_ejecucion) {
-        this.tiempo_ejecucion = tiempo_ejecucion;
+    public void setTiempoEjecucion(Integer tiempoEjecucion) {
+        this.tiempoEjecucion = tiempoEjecucion;
     }
 
-    public Integer getNivel_de_prioridad() {
-        return nivel_de_prioridad;
+    public Integer getNivelDePrioridad() {
+        return nivelDePrioridad;
     }
 
-    public void setNivel_de_prioridad(Integer nivel_de_prioridad) {
-        this.nivel_de_prioridad = nivel_de_prioridad;
+    public void setNivelDePrioridad(Integer nivelDePrioridad) {
+        this.nivelDePrioridad = nivelDePrioridad;
     }
 
     @Override
     public String toString() {
-        return "Tarea----->{id_tarea='" + id_tarea + '\'' +
-                ", nombre='" + nombre_tarea + '\'' +
-                ", tiempo=" + tiempo_ejecucion +
-                ", es_critica=" + es_critica +
-                ", prioridad=" + nivel_de_prioridad +
+        return "Tarea----->{id_tarea='" + idTarea + '\'' +
+                ", nombre='" + nombreTarea + '\'' +
+                ", tiempo=" + tiempoEjecucion +
+                ", es_critica=" + esCritica +
+                ", prioridad=" + nivelDePrioridad +
                 '}';
     }
 }

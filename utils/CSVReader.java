@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class CSVReader {
@@ -18,19 +17,19 @@ public class CSVReader {
 	public CSVReader() {
 	}
 
-	public void readTasks(String taskPath, HashMap<String, Tarea> tareas, HashMap<Boolean, List<Tarea>> listas_criticidad) {
+	public void readTasks(String taskPath, HashMap<Integer, Tarea> tareas, HashMap<Boolean, List<Tarea>> listasCriticidad) {
 		
 		// Obtengo una lista con las lineas del archivo
 		// lines.get(0) tiene la primer linea del archivo
 		// lines.get(1) tiene la segunda linea del archivo... y así
 		ArrayList<String[]> lines = this.readContent(taskPath);
 
-		List<Tarea> tareas_no_criticas = new ArrayList<>();
-		List<Tarea> tareas_criticas = new ArrayList<>();
+		List<Tarea> tareasNoCriticas = new ArrayList<>();
+		List<Tarea> tareasCriticas = new ArrayList<>();
 		
 		for (String[] line: lines) {
 			// Cada linea es un arreglo de Strings, donde cada posicion guarda un elemento
-			String id = line[0].trim();
+			int id = Integer.parseInt(line[0].trim());
 			String nombre = line[1].trim();
 			Integer tiempo = Integer.parseInt(line[2].trim());
 			Boolean critica = Boolean.parseBoolean(line[3].trim());
@@ -38,17 +37,17 @@ public class CSVReader {
 			// Aca instanciar lo que necesiten en base a los datos leidos
 			Tarea t = new Tarea(id,nombre,tiempo,critica,prioridad);
 
-			tareas.put(t.getId_tarea(),t);
+			tareas.put(t.getIdTarea(),t);
 
-			if(t.getEs_critica()){
-				tareas_criticas.add(t);
+			if(t.getEsCritica()){
+				tareasCriticas.add(t);
 			}
 			else {
-				tareas_no_criticas.add(t);
+				tareasNoCriticas.add(t);
 			}
 		}
-		listas_criticidad.put(false, tareas_no_criticas);
-		listas_criticidad.put(true, tareas_criticas);
+		listasCriticidad.put(false, tareasNoCriticas);
+		listasCriticidad.put(true, tareasCriticas);
 	}
 
 	public void readProcessors(String processorPath) {
@@ -60,7 +59,7 @@ public class CSVReader {
 		
 		for (String[] line: lines) {
 			// Cada linea es un arreglo de Strings, donde cada posicion guarda un elemento
-			String id = line[0].trim();
+			int id = Integer.parseInt(line[0].trim());
 			String codigo = line[1].trim();
 			Boolean refrigerado = Boolean.parseBoolean(line[2].trim());
 			Integer anio = Integer.parseInt(line[3].trim());

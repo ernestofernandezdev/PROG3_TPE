@@ -1,26 +1,24 @@
 package src;
 
-import java.util.ArrayList;
-
 public class Procesador {
-    private String id_procesador;
+    private int idProcesador;
     private String codigo;
     private Boolean estaRefrigerado;
-    private Integer anio_funcionamiento;
+    private Integer anioFuncionamiento;
 
-    public Procesador(String id_procesador, String codigo, Boolean estaRefrigerado, Integer anio_funcionamiento) {
-        this.id_procesador = id_procesador;
+    public Procesador(int idProcesador, String codigo, Boolean estaRefrigerado, Integer anioFuncionamiento) {
+        this.idProcesador = idProcesador;
         this.codigo = codigo;
         this.estaRefrigerado = estaRefrigerado;
-        this.anio_funcionamiento = anio_funcionamiento;
+        this.anioFuncionamiento = anioFuncionamiento;
     }
 
-    public String getId_procesador() {
-        return id_procesador;
+    public int getIdProcesador() {
+        return idProcesador;
     }
 
-    public void setId_procesador(String id_procesador) {
-        this.id_procesador = id_procesador;
+    public void setIdProcesador(int idProcesador) {
+        this.idProcesador = idProcesador;
     }
 
     public String getCodigo() {
@@ -39,12 +37,12 @@ public class Procesador {
         this.estaRefrigerado = estaRefrigerado;
     }
 
-    public Integer getAnio_funcionamiento() {
-        return anio_funcionamiento;
+    public Integer getAnioFuncionamiento() {
+        return anioFuncionamiento;
     }
 
-    public void setAnio_funcionamiento(Integer anio_funcionamiento) {
-        this.anio_funcionamiento = anio_funcionamiento;
+    public void setAnioFuncionamiento(Integer anioFuncionamiento) {
+        this.anioFuncionamiento = anioFuncionamiento;
     }
 
 }

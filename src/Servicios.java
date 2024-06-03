@@ -2,6 +2,7 @@ package src;
 
 import utils.CSVReader;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,10 +14,10 @@ import java.util.List;
 public class Servicios {
 
 	//estructura para el servicio 1
-	private HashMap<String, Tarea> tareas;
+	private HashMap<Integer, Tarea> tareas;
 
 	//estructura para el servicio 2
-	private HashMap<Boolean, List<Tarea>> listas_criticidad;
+	private HashMap<Boolean, List<Tarea>> listasCriticidad;
 
 	/*
      * Expresar la complejidad temporal del constructor.
@@ -26,32 +27,35 @@ public class Servicios {
 		CSVReader reader = new CSVReader();
 		reader.readProcessors(pathProcesadores);
 		this.tareas = new HashMap<>();
-		this.listas_criticidad = new HashMap<>();
-		reader.readTasks(pathTareas, tareas, listas_criticidad);
+		this.listasCriticidad = new HashMap<>();
+		reader.readTasks(pathTareas, tareas, listasCriticidad);
 		//System.out.println(reader.readService1(true));
 	}
 	
 
 	// La complejidad temporal del servicio 1 es O(1), ya que en las estructuras
 	// HashMap obtener un elemento siempre es O(1).
-	public Tarea servicio1(String ID) {
-		return this.tareas.get(ID);
+	public Tarea servicio1(int id) {
+		return this.tareas.get(id);
 	}
     
 
     // La complejidad temporal del servicio 2 es O(1), por lo mismo que el punto anterior.
 	public List<Tarea> servicio2(boolean esCritica) {
-		if(esCritica){
-			return this.listas_criticidad.get(true);
-		}
-		return this.listas_criticidad.get(false);
+		return this.listasCriticidad.get(esCritica);
 	}
 
-    /*
-     * Expresar la complejidad temporal del servicio 3.
-     */
+    // La complejidad temporal del servicio 3 es 0(n), ya que necesitamos recorrer todas las tareas
+	// para verificar si cumplen o no con la condición de estar entre los dos niveles de prioridad.
 	public List<Tarea> servicio3(int prioridadInferior, int prioridadSuperior) {
-		return null;
+		List<Tarea> tareas = new ArrayList<>();
+		for (Integer idTarea: this.tareas.keySet()) {
+			Tarea tarea = this.tareas.get(idTarea);
+			if (tarea.getNivelDePrioridad() < prioridadSuperior && tarea.getNivelDePrioridad() < prioridadInferior) {
+				tareas.add(tarea);
+			}
+		}
+		return tareas;
 	}
 
 }
