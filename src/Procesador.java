@@ -1,23 +1,23 @@
 package src;
 
 public class Procesador {
-    private int idProcesador;
+    private String idProcesador;
     private String codigo;
     private Boolean estaRefrigerado;
     private Integer anioFuncionamiento;
 
-    public Procesador(int idProcesador, String codigo, Boolean estaRefrigerado, Integer anioFuncionamiento) {
+    public Procesador(String idProcesador, String codigo, Boolean estaRefrigerado, Integer anioFuncionamiento) {
         this.idProcesador = idProcesador;
         this.codigo = codigo;
         this.estaRefrigerado = estaRefrigerado;
         this.anioFuncionamiento = anioFuncionamiento;
     }
 
-    public int getIdProcesador() {
+    public String getIdProcesador() {
         return idProcesador;
     }
 
-    public void setIdProcesador(int idProcesador) {
+    public void setIdProcesador(String idProcesador) {
         this.idProcesador = idProcesador;
     }
 

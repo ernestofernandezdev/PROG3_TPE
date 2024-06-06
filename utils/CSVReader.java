@@ -1,6 +1,7 @@
 package utils;
 
 
+import src.Procesador;
 import src.Tarea;
 
 import java.io.BufferedReader;
@@ -9,6 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -17,7 +19,7 @@ public class CSVReader {
 	public CSVReader() {
 	}
 
-	public void readTasks(String taskPath, HashMap<Integer, Tarea> tareas, HashMap<Boolean, List<Tarea>> listasCriticidad) {
+	public void readTasks(String taskPath, HashMap<String, Tarea> tareas, HashMap<Boolean, List<Tarea>> listasCriticidad) {
 		
 		// Obtengo una lista con las lineas del archivo
 		// lines.get(0) tiene la primer linea del archivo
@@ -29,7 +31,7 @@ public class CSVReader {
 		
 		for (String[] line: lines) {
 			// Cada linea es un arreglo de Strings, donde cada posicion guarda un elemento
-			int id = Integer.parseInt(line[0].trim());
+			String id = line[0].trim();
 			String nombre = line[1].trim();
 			Integer tiempo = Integer.parseInt(line[2].trim());
 			Boolean critica = Boolean.parseBoolean(line[3].trim());
@@ -50,7 +52,7 @@ public class CSVReader {
 		listasCriticidad.put(true, tareasCriticas);
 	}
 
-	public void readProcessors(String processorPath) {
+	public void readProcessors(String processorPath, LinkedList<Procesador> procesadores) {
 		
 		// Obtengo una lista con las lineas del archivo
 		// lines.get(0) tiene la primer linea del archivo
@@ -59,11 +61,13 @@ public class CSVReader {
 		
 		for (String[] line: lines) {
 			// Cada linea es un arreglo de Strings, donde cada posicion guarda un elemento
-			int id = Integer.parseInt(line[0].trim());
+			String id = line[0].trim();
 			String codigo = line[1].trim();
 			Boolean refrigerado = Boolean.parseBoolean(line[2].trim());
 			Integer anio = Integer.parseInt(line[3].trim());
 			// Aca instanciar lo que necesiten en base a los datos leidos
+			Procesador p = new Procesador(id, codigo, refrigerado, anio);
+			procesadores.add(p);
 		}
 		
 	}

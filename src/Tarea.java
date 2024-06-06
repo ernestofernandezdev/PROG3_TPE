@@ -1,13 +1,13 @@
 package src;
 
 public class Tarea {
-    private int idTarea;
+    private String idTarea;
     private String nombreTarea;
     private Integer tiempoEjecucion;
     private Boolean esCritica;
     private Integer nivelDePrioridad;
 
-    public Tarea(int idTarea, String nombreTarea, Integer tiempoEjecucion, Boolean esCritica, Integer nivelDePrioridad) {
+    public Tarea(String idTarea, String nombreTarea, Integer tiempoEjecucion, Boolean esCritica, Integer nivelDePrioridad) {
         this.idTarea = idTarea;
         this.nombreTarea = nombreTarea;
         this.tiempoEjecucion = tiempoEjecucion;
@@ -15,11 +15,11 @@ public class Tarea {
         this.nivelDePrioridad = nivelDePrioridad;
     }
 
-    public int getIdTarea() {
+    public String getIdTarea() {
         return idTarea;
     }
 
-    public void setIdTarea(int idTarea) {
+    public void setIdTarea(String idTarea) {
         this.idTarea = idTarea;
     }
 
