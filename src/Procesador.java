@@ -5,7 +5,6 @@ public class Procesador {
     private String codigo;
     private Boolean estaRefrigerado;
     private Integer anioFuncionamiento;
-    private int contadorTareasCriticas;
 
     public Procesador(String idProcesador, String codigo, Boolean estaRefrigerado, Integer anioFuncionamiento) {
         this.idProcesador = idProcesador;
@@ -44,14 +43,6 @@ public class Procesador {
 
     public void setAnioFuncionamiento(Integer anioFuncionamiento) {
         this.anioFuncionamiento = anioFuncionamiento;
-    }
-
-    public void incrementarContadorTareasCriticas() {
-        this.contadorTareasCriticas++;
-    }
-
-    public int getContadorTareasCriticas() {
-        return this.contadorTareasCriticas;
     }
 
     @Override

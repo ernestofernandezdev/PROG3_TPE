@@ -102,12 +102,13 @@ public class Servicios {
 
 		int tareasAsignadas = 0;
 		for (Procesador procesador: estado.keySet()) {
-			LinkedList<Tarea> tareas = estado.get(procesador);
 			if (!procesador.getEstaRefrigerado()) {
-				for (Tarea tarea: tareas) {
-					if (tarea.getTiempoEjecucion() > this.maxTiempoNoRefrigerados) {
-						return false;
-					}
+				int tiempoEjecucionTotal = 0;
+				for (Tarea tarea: estado.get(procesador)) {
+					tiempoEjecucionTotal += tarea.getTiempoEjecucion();
+				}
+				if (tiempoEjecucionTotal > this.maxTiempoNoRefrigerados) {
+					return false;
 				}
 			}
 			tareasAsignadas += tareas.size();
@@ -115,7 +116,7 @@ public class Servicios {
 
 		if (tareasAsignadas == this.tareas.size()) {
 			for (Procesador p: this.procesadores) {
-				if (this.getNumTareasCriticas(estado, p) > this.getNumTareasNoCriticas(estado, p) + 1) {
+				if (this.getNumTareasCriticas(estado, p) > 2) {
 					return false;
 				}
 			}
@@ -149,16 +150,6 @@ public class Servicios {
 		return numTareasCriticas;
 	}
 
-	private int getNumTareasNoCriticas(HashMap<Procesador, LinkedList<Tarea>> estado, Procesador p) {
-		int numTareasNoCriticas = 0;
-		for (Tarea tarea: estado.get(p)) {
-			if (!tarea.getEsCritica()) {
-				numTareasNoCriticas++;
-			}
-		}
-		return numTareasNoCriticas;
-	}
-
 
 	private void analizarSolucion(HashMap<Procesador, LinkedList<Tarea>> posibleSolucion) {
 		int tiempoPosibleSolucion = this.getTiempoEjecucion(posibleSolucion);
@@ -172,15 +163,11 @@ public class Servicios {
 		}
 	}
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	//Si conjunto_solucion tiene elementos y ya use todas las Tareas de tareas entonces es una solucion
-	private boolean solucion(HashMap<Procesador, LinkedList<Tarea>> conjunto_solucion, PriorityQueue<Tarea> tareas){
-        return !conjunto_solucion.isEmpty() && tareas.isEmpty();
-    }
 
 	private boolean esFactible(HashMap<Procesador, LinkedList<Tarea>> conjunto_solucion, Procesador procesador){
 		//PROCESADOR REFRIGERADO
 		if(procesador.getEstaRefrigerado()){
-			return procesador.getContadorTareasCriticas() < 2;
+			return this.getNumTareasCriticas(conjunto_solucion, procesador) < 2;
 		}
 		//PROCESADOR NO REFRIGERADO
 		else{
@@ -190,11 +177,11 @@ public class Servicios {
 					tamanio_tiempo_ejecucion += t.getTiempoEjecucion();
 				}
 			}
-			return (procesador.getContadorTareasCriticas() < 2) && (tamanio_tiempo_ejecucion < maxTiempoNoRefrigerados);
+			return (this.getNumTareasCriticas(conjunto_solucion, procesador) < 2) && (tamanio_tiempo_ejecucion < maxTiempoNoRefrigerados);
 		}
 	}
 
-	public HashMap<Procesador, LinkedList<Tarea>> greedy(int maxTiempoNoRefrigerados) throws Exception {
+	public HashMap<Procesador, LinkedList<Tarea>> greedy(int maxTiempoNoRefrigerados) {
 
 		//Se crea una cola de prioridad (PriorityQueue) que almacenará objetos de tipo Tarea. La prioridad de las tareas en esta
 		//cola se determina por su tiempo de ejecución. Las tareas con menor tiempo de ejecución tienen mayor prioridad.
@@ -210,42 +197,16 @@ public class Servicios {
 			conjunto_solucion.put(proc, new LinkedList<>());
 		}
 
-		while(!tareas_disponibles.isEmpty() && !solucion(conjunto_solucion, tareas_disponibles)){
+		while(!tareas_disponibles.isEmpty()){
 			for (Procesador proc: this.procesadores) {
-				while (!tareas_disponibles.isEmpty() && esFactible(conjunto_solucion, proc)) {
-					Tarea t = tareas_disponibles.poll();
-					LinkedList<Tarea> tareas_validas = conjunto_solucion.get(proc);
-					tareas_validas.add(t);
-					conjunto_solucion.put(proc, tareas_validas);
-					if (t.getEsCritica()) {
-						proc.incrementarContadorTareasCriticas();
-					}
+				if (esFactible(conjunto_solucion, proc)) {
+					conjunto_solucion.get(proc).add(tareas_disponibles.poll());
 				}
 			}
 		}
 
-		max_tiempo_de_ejecucion(conjunto_solucion);
+		getTiempoEjecucion(conjunto_solucion);
 
-		if (solucion(conjunto_solucion, tareas_disponibles)){
-			return conjunto_solucion;
-		}
-		else {
-			throw new Exception("Error, no hay solucion posible");
-		}
-	}
-
-	private void max_tiempo_de_ejecucion(HashMap<Procesador, LinkedList<Tarea>> conjunto_solucion){
-		int max = 0;
-		for (Procesador proc: this.procesadores) {
-			int suma = 0;
-			LinkedList<Tarea> tareas = conjunto_solucion.get(proc);
-			for (Tarea t : tareas){
-				suma += t.getTiempoEjecucion();
-			}
-			if (suma > max){
-				max = suma;
-			}
-		}
-		System.out.println("El tiempo maximo de ejecucion es " + max);
+		return conjunto_solucion;
 	}
 }
