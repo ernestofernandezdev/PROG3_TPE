@@ -9,6 +9,8 @@ public class Main {
 
 		try {
 			System.out.println(servicios.backtracking(1000));
+			System.out.println("=============================================Separador=============================================");
+			System.out.println(servicios.greedy(1000));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

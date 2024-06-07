@@ -202,10 +202,13 @@ public class Servicios {
 
 		for (Procesador proc: this.procesadores) {
 			Tarea tareaAux = tareas_disponibles.peek();
-			while(!tareas_disponibles.isEmpty() && esFactible(conjunto_solucion, proc, tareaAux)){
-				if (tareaAux != null && esFactible(conjunto_solucion, proc, tareaAux)) {
-					tareaAux = tareas_disponibles.poll();
-					conjunto_solucion.get(proc).add(tareaAux);
+			while(tareaAux != null && esFactible(conjunto_solucion, proc, tareaAux)){
+				tareaAux = tareas_disponibles.poll();
+				conjunto_solucion.get(proc).add(tareaAux);
+				if (!tareas_disponibles.isEmpty()) {
+					tareaAux = tareas_disponibles.peek();
+				} else {
+					tareaAux = null;
 				}
 			}
 		}
