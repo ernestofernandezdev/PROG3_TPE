@@ -224,11 +224,28 @@ public class Servicios {
 			}
 		}
 
+		max_tiempo_de_ejecucion(conjunto_solucion);
+
 		if (solucion(conjunto_solucion, tareas_disponibles)){
 			return conjunto_solucion;
 		}
 		else {
 			throw new Exception("Error, no hay solucion posible");
 		}
+	}
+
+	private void max_tiempo_de_ejecucion(HashMap<Procesador, LinkedList<Tarea>> conjunto_solucion){
+		int max = 0;
+		for (Procesador proc: this.procesadores) {
+			int suma = 0;
+			LinkedList<Tarea> tareas = conjunto_solucion.get(proc);
+			for (Tarea t : tareas){
+				suma += t.getTiempoEjecucion();
+			}
+			if (suma > max){
+				max = suma;
+			}
+		}
+		System.out.println("El tiempo maximo de ejecucion es " + max);
 	}
 }
