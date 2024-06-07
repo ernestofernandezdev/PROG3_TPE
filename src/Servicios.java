@@ -64,7 +64,8 @@ public class Servicios {
 		return tareas;
 	}
 
-	public HashMap<Procesador, LinkedList<Tarea>> backtracking(int maxTiempoNoRefrigerados) {
+	public HashMap<Procesador, LinkedList<Tarea>> backtracking(int maxTiempoNoRefrigerados) throws Exception {
+		this.solucion = null;
 		HashMap<Procesador, LinkedList<Tarea>> estado = new HashMap<>();
 		for (Procesador p: this.procesadores) {
 			estado.put(p, new LinkedList<>());
@@ -74,13 +75,17 @@ public class Servicios {
 		this.solucionesConsideradas = 0;
 		this.backtracking(estado, tareasPorRealizar);
 
+		if (this.solucion == null) {
+			throw new Exception("No se encontró ninguna solución.");
+		}
+
 		System.out.println(this.tiempoSolucion);
 		System.out.println(this.solucionesConsideradas);
 		return this.solucion;
 	}
 
 	private void backtracking(HashMap<Procesador, LinkedList<Tarea>> estado, Deque<Tarea> tareasPorRealizar) {
-		if (esPosibleSolucion(estado)) {
+		if (tareasPorRealizar.isEmpty() && esPosibleSolucion(estado)) {
 			this.solucionesConsideradas++;
 			this.analizarSolucion(estado);
 			return;
@@ -100,7 +105,6 @@ public class Servicios {
 
 	private boolean esPosibleSolucion(HashMap<Procesador, LinkedList<Tarea>> estado) {
 
-		int tareasAsignadas = 0;
 		for (Procesador procesador: estado.keySet()) {
 			if (!procesador.getEstaRefrigerado()) {
 				int tiempoEjecucionTotal = 0;
@@ -111,18 +115,14 @@ public class Servicios {
 					return false;
 				}
 			}
-			tareasAsignadas += tareas.size();
 		}
 
-		if (tareasAsignadas == this.tareas.size()) {
-			for (Procesador p: this.procesadores) {
-				if (this.getNumTareasCriticas(estado, p) > 2) {
-					return false;
-				}
+		for (Procesador p: this.procesadores) {
+			if (this.getNumTareasCriticas(estado, p) > 2) {
+				return false;
 			}
-			return true;
 		}
-		return false;
+		return true;
 	}
 
 	private int getTiempoEjecucion(HashMap<Procesador, LinkedList<Tarea>> posibleSolucion) {
