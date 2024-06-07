@@ -5,6 +5,7 @@ public class Procesador {
     private String codigo;
     private Boolean estaRefrigerado;
     private Integer anioFuncionamiento;
+    private int contadorTareasCriticas;
 
     public Procesador(String idProcesador, String codigo, Boolean estaRefrigerado, Integer anioFuncionamiento) {
         this.idProcesador = idProcesador;
@@ -45,4 +46,16 @@ public class Procesador {
         this.anioFuncionamiento = anioFuncionamiento;
     }
 
+    public void incrementarContadorTareasCriticas() {
+        this.contadorTareasCriticas++;
+    }
+
+    public int getContadorTareasCriticas() {
+        return this.contadorTareasCriticas;
+    }
+
+    @Override
+    public String toString() {
+        return "\n" + "Procesador"+ " " + idProcesador + " | " + "Refrigerado:" + estaRefrigerado + " ";
+    }
 }

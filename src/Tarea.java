@@ -7,6 +7,9 @@ public class Tarea {
     private Boolean esCritica;
     private Integer nivelDePrioridad;
 
+    public Tarea() {
+    }
+
     public Tarea(String idTarea, String nombreTarea, Integer tiempoEjecucion, Boolean esCritica, Integer nivelDePrioridad) {
         this.idTarea = idTarea;
         this.nombreTarea = nombreTarea;

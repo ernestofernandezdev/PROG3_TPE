@@ -25,8 +25,8 @@ public class Servicios {
 	private int solucionesConsideradas;
 
 	/*
-     * Expresar la complejidad temporal del constructor.
-     */
+	 * Expresar la complejidad temporal del constructor.
+	 */
 	public Servicios(String pathProcesadores, String pathTareas)
 	{
 		CSVReader reader = new CSVReader();
@@ -37,21 +37,21 @@ public class Servicios {
 		reader.readTasks(pathTareas, this.tareas, this.listasCriticidad);
 		//System.out.println(reader.readService1(true));
 	}
-	
+
 
 	// La complejidad temporal del servicio 1 es O(1), ya que en las estructuras
 	// HashMap obtener un elemento siempre es O(1).
 	public Tarea servicio1(String id) {
 		return this.tareas.get(id);
 	}
-    
 
-    // La complejidad temporal del servicio 2 es O(1), por lo mismo que el punto anterior.
+
+	// La complejidad temporal del servicio 2 es O(1), por lo mismo que el punto anterior.
 	public List<Tarea> servicio2(boolean esCritica) {
 		return this.listasCriticidad.get(esCritica);
 	}
 
-    // La complejidad temporal del servicio 3 es 0(n), ya que necesitamos recorrer todas las tareas
+	// La complejidad temporal del servicio 3 es 0(n), ya que necesitamos recorrer todas las tareas
 	// para verificar si cumplen o no con la condición de estar entre los dos niveles de prioridad.
 	public List<Tarea> servicio3(int prioridadInferior, int prioridadSuperior) {
 		List<Tarea> tareas = new ArrayList<>();
@@ -70,7 +70,7 @@ public class Servicios {
 			estado.put(p, new LinkedList<>());
 		}
 		this.maxTiempoNoRefrigerados = maxTiempoNoRefrigerados;
-        Deque<Tarea> tareasPorRealizar = new LinkedList<>(this.tareas.values());
+		Deque<Tarea> tareasPorRealizar = new LinkedList<>(this.tareas.values());
 		this.solucionesConsideradas = 0;
 		this.backtracking(estado, tareasPorRealizar);
 
@@ -171,5 +171,64 @@ public class Servicios {
 			this.tiempoSolucion = tiempoPosibleSolucion;
 		}
 	}
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	//Si conjunto_solucion tiene elementos y ya use todas las Tareas de tareas entonces es una solucion
+	private boolean solucion(HashMap<Procesador, LinkedList<Tarea>> conjunto_solucion, PriorityQueue<Tarea> tareas){
+        return !conjunto_solucion.isEmpty() && tareas.isEmpty();
+    }
 
+	private boolean esFactible(HashMap<Procesador, LinkedList<Tarea>> conjunto_solucion, Procesador procesador){
+		//PROCESADOR REFRIGERADO
+		if(procesador.getEstaRefrigerado()){
+			return procesador.getContadorTareasCriticas() < 2;
+		}
+		//PROCESADOR NO REFRIGERADO
+		else{
+			int tamanio_tiempo_ejecucion = 0;
+			if(conjunto_solucion.containsKey(procesador)){
+				for (Tarea t : conjunto_solucion.get(procesador)){
+					tamanio_tiempo_ejecucion += t.getTiempoEjecucion();
+				}
+			}
+			return (procesador.getContadorTareasCriticas() < 2) && (tamanio_tiempo_ejecucion < maxTiempoNoRefrigerados);
+		}
+	}
+
+	public HashMap<Procesador, LinkedList<Tarea>> greedy(int maxTiempoNoRefrigerados) throws Exception {
+
+		//Se crea una cola de prioridad (PriorityQueue) que almacenará objetos de tipo Tarea. La prioridad de las tareas en esta
+		//cola se determina por su tiempo de ejecución. Las tareas con menor tiempo de ejecución tienen mayor prioridad.
+		//Esto se logra pasando un comparador al constructor de la PriorityQueue que compara las tareas por su tiempo de ejecución.
+		PriorityQueue<Tarea> tareas_disponibles = new PriorityQueue<>(Comparator.comparing(Tarea::getTiempoEjecucion));
+		tareas_disponibles.addAll(this.tareas.values());
+
+		HashMap<Procesador, LinkedList<Tarea>> conjunto_solucion = new HashMap<>();
+
+		this.maxTiempoNoRefrigerados = maxTiempoNoRefrigerados;
+
+		for (Procesador proc: this.procesadores) {
+			conjunto_solucion.put(proc, new LinkedList<>());
+		}
+
+		while(!tareas_disponibles.isEmpty() && !solucion(conjunto_solucion, tareas_disponibles)){
+			for (Procesador proc: this.procesadores) {
+				while (!tareas_disponibles.isEmpty() && esFactible(conjunto_solucion, proc)) {
+					Tarea t = tareas_disponibles.poll();
+					LinkedList<Tarea> tareas_validas = conjunto_solucion.get(proc);
+					tareas_validas.add(t);
+					conjunto_solucion.put(proc, tareas_validas);
+					if (t.getEsCritica()) {
+						proc.incrementarContadorTareasCriticas();
+					}
+				}
+			}
+		}
+
+		if (solucion(conjunto_solucion, tareas_disponibles)){
+			return conjunto_solucion;
+		}
+		else {
+			throw new Exception("Error, no hay solucion posible");
+		}
+	}
 }
