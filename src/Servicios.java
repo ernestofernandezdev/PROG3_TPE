@@ -23,6 +23,7 @@ public class Servicios {
 	private HashMap<Procesador, LinkedList<Tarea>> solucion;
 	private int tiempoSolucion;
 	private int solucionesConsideradas;
+	private int candidatosConsiderados;
 
 	/*
 	 * Expresar la complejidad temporal del constructor.
@@ -79,8 +80,8 @@ public class Servicios {
 			throw new Exception("No se encontró ninguna solución.");
 		}
 
-		System.out.println(this.tiempoSolucion);
-		System.out.println(this.solucionesConsideradas);
+		System.out.println("Tiempo de solución: "+ this.tiempoSolucion);
+		System.out.println("Cantidad de soluciones consideradas: " + this.solucionesConsideradas);
 		return this.solucion;
 	}
 
@@ -166,6 +167,7 @@ public class Servicios {
 
 	private boolean esFactible(HashMap<Procesador, LinkedList<Tarea>> conjunto_solucion, Procesador procesador, Tarea tarea){
 		//PROCESADOR REFRIGERADO
+
 		if(procesador.getEstaRefrigerado()){
 			return this.getNumTareasCriticas(conjunto_solucion, procesador) < 2;
 		}
@@ -195,16 +197,18 @@ public class Servicios {
 		HashMap<Procesador, LinkedList<Tarea>> conjunto_solucion = new HashMap<>();
 
 		this.maxTiempoNoRefrigerados = maxTiempoNoRefrigerados;
-
+		this.candidatosConsiderados = 0;
 		for (Procesador proc: this.procesadores) {
 			conjunto_solucion.put(proc, new LinkedList<>());
 		}
 
 		for (Procesador proc: this.procesadores) {
 			Tarea tareaAux = tareas_disponibles.peek();
+
 			while(tareaAux != null && esFactible(conjunto_solucion, proc, tareaAux)){
 				tareaAux = tareas_disponibles.poll();
 				conjunto_solucion.get(proc).add(tareaAux);
+				this.candidatosConsiderados++;
 				if (!tareas_disponibles.isEmpty()) {
 					tareaAux = tareas_disponibles.peek();
 				} else {
@@ -214,7 +218,7 @@ public class Servicios {
 		}
 
 		System.out.println("El tiempo maximo es: " + getTiempoEjecucion(conjunto_solucion));
-
+		System.out.println("Cantidad de candidatos considerados: "+ this.candidatosConsiderados);
 		if (!conjunto_solucion.isEmpty()){
 			return conjunto_solucion;
 		}
