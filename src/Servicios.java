@@ -52,8 +52,14 @@ public class Servicios {
 		return this.listasCriticidad.get(esCritica);
 	}
 
-	// La complejidad temporal del servicio 3 es 0(n), ya que necesitamos recorrer todas las tareas
-	// para verificar si cumplen o no con la condición de estar entre los dos niveles de prioridad.
+/*
+
+/* La complejidad temporal del servicio 3 es 0(n), ya que necesitamos recorrer todas las tareas
+	 para verificar si cumplen o no con la condición de estar entre los dos niveles de prioridad.
+	 En este ejercicio consideramos utilizar un arbol binario de búsqueda, pero vimos que al final
+	 la complejidad temporal en el peor caso seguía siendo O(n).
+ */
+	
 	public List<Tarea> servicio3(int prioridadInferior, int prioridadSuperior) {
 		List<Tarea> tareas = new ArrayList<>();
 		for (String idTarea: this.tareas.keySet()) {
@@ -65,6 +71,13 @@ public class Servicios {
 		return tareas;
 	}
 
+
+	/*
+	La estrategia que se siguió fue repartir las tareas a realizar entre cada procesador, en todas las
+	 combinaciones posibles. En cada caso se verificó si la solución era plausible (considerando las
+	 restricciones del problema) y en cada paso nos fuimos quedando con la que tenía menor tiempo de
+	 ejecución total.
+	*/
 	public HashMap<Procesador, LinkedList<Tarea>> backtracking(int maxTiempoNoRefrigerados) throws Exception {
 		this.solucion = null;
 		HashMap<Procesador, LinkedList<Tarea>> estado = new HashMap<>();
